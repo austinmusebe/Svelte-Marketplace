@@ -2,20 +2,29 @@ import { getDb } from '$lib/db.js';
 import { ObjectId } from 'mongodb';
 import { fail } from '@sveltejs/kit';
 
-// Load user addresses
+// Load user addresses and orders
 export async function load({ url }) {
 	const userId = url.searchParams.get('userId');
-	if (!userId) return { addresses: [] };
+	if (!userId) return { addresses: [], orders: [] };
 
 	const db = await getDb();
 	const addresses = db.collection('addresses');
+	const orders = db.collection('orders');
 
 	const userAddresses = await addresses.find({ userId }).toArray();
+	const userOrders = await orders
+		.find({ userId })
+		.sort({ createdAt: -1 })
+		.toArray();
 
 	return {
 		addresses: userAddresses.map((addr) => ({
 			...addr,
 			_id: addr._id.toString()
+		})),
+		orders: userOrders.map((order) => ({
+			...order,
+			_id: order._id.toString()
 		}))
 	};
 }
