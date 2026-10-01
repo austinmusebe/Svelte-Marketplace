@@ -72,9 +72,16 @@
 
 		try {
 			await fetch('?/placeOrder', { method: 'POST', body: formData });
+			if (user) {
+				currentUser.set({
+					...user,
+					name: shippingInfo.fullName || user.name,
+					phone: shippingInfo.phone || user.phone
+				});
+			}
 			alert('Order placed successfully!');
 			cart.clear();
-			goto('/account');
+			goto(`/order/${orderData.orderId}`);
 		} catch (error) {
 			console.error('Failed to save order:', error);
 			alert('Order failed. Please try again.');
