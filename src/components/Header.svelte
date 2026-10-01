@@ -34,7 +34,7 @@
 <header>
 	<nav>
 		<ul class="header-content">
-			<li class="business"><a href="/home">SCAMMER SHOP</a></li>
+			<li class="business"><a href="/home">MERCADO A LA TECHNOLOGIA</a></li>
 			<div class="nav-links">
 				<a href="/home">Home</a>
 				<button class="btn-cart" onclick={openCart}>
