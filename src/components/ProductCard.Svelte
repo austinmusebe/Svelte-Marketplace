@@ -25,20 +25,22 @@
 </script>
 
 <div>
-	<div class="product-card">
-		<div class="top-card">
-			{#if product.image}
-				<img src={product.image} alt={product.name} />
-			{:else}
-				<div class="placeholder">No Image</div>
-			{/if}
+	<a href={`/product/${product.id}`} class="card-link">
+		<div class="product-card">
+			<div class="top-card">
+				{#if product.image}
+					<img src={product.image} alt={product.name} />
+				{:else}
+					<div class="placeholder">No Image</div>
+				{/if}
+			</div>
+			<div class="bottom-card">
+				<h3>{product.name}</h3>
+				<p class="price">${product.price.toFixed(2)}</p>
+				<p class="description">{product.description}</p>
+			</div>
 		</div>
-		<div class="bottom-card">
-			<h3>{product.name}</h3>
-			<p class="price">${product.price.toFixed(2)}</p>
-			<p class="description">{product.description}</p>
-		</div>
-	</div>
+	</a>
 	<div class="quantity-buy">
 		<div class="change-quantity">
 			<button class="decrement" onclick={() => count > 1 && count--}>-</button>
@@ -50,12 +52,25 @@
 </div>
 
 <style>
+	.card-link {
+		text-decoration: none;
+		color: inherit;
+		display: block;
+		cursor: pointer;
+	}
+
 	.product-card {
 		border: 1px solid #ddd;
 		border-radius: 8px;
 		overflow: hidden;
 		display: flex;
 		flex-direction: column;
+		transition: transform 0.2s, box-shadow 0.2s;
+	}
+
+	.product-card:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 	}
 
 	.top-card {

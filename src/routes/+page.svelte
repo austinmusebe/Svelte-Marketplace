@@ -1,72 +1,143 @@
 <script>
-	import Header from '../components/Header.svelte';
 	import ProductCard from '../components/ProductCard.svelte';
+	import { products } from '$lib/products.js';
+
+	const audioProducts = products.filter((p) => p.category === 'Audio').slice(0, 2);
+	const wearableProducts = products.filter((p) => p.category === 'Wearables').slice(0, 2);
+	const accessoryProducts = products.filter((p) => p.category === 'Accessories').slice(0, 2);
 </script>
 
 <div class="holder">
-	<h1 class="category-title">Welcome to Our Store</h1>
-	<a href="/home" class="start-button">Start Shopping</a>
-</div>
+	<div class="hero-section">
+		<h1 class="hero-title">Welcome to Our Store</h1>
+		<p class="hero-subtitle">High performance gadgets and premium accessories</p>
+		<a href="/home" class="start-button">Start Shopping</a>
+	</div>
 
-<!-- <div class="product-row">
-	<h1 class="category-title">Category 1</h1>
-	<div class="product-holder">
-		<ProductCard />
-		<ProductCard />
+	<div class="category-sections">
+		<div class="product-row">
+			<div class="category-header">
+				<h2 class="category-title">Audio</h2>
+				<a href="/home?category=Audio" class="view-category-link">View All Audio →</a>
+			</div>
+			<div class="product-holder">
+				{#each audioProducts as product}
+					<ProductCard {product} />
+				{/each}
+			</div>
+		</div>
+
+		<div class="product-row">
+			<div class="category-header">
+				<h2 class="category-title">Wearables</h2>
+				<a href="/home?category=Wearables" class="view-category-link">View All Wearables →</a>
+			</div>
+			<div class="product-holder">
+				{#each wearableProducts as product}
+					<ProductCard {product} />
+				{/each}
+			</div>
+		</div>
+
+		<div class="product-row">
+			<div class="category-header">
+				<h2 class="category-title">Accessories</h2>
+				<a href="/home?category=Accessories" class="view-category-link">View All Accessories →</a>
+			</div>
+			<div class="product-holder">
+				{#each accessoryProducts as product}
+					<ProductCard {product} />
+				{/each}
+			</div>
+		</div>
 	</div>
 </div>
-<div class="product-row">
-	<h1 class="category-title">Category 2</h1>
-	<div class="product-holder">
-		<ProductCard />
-		<ProductCard />
-	</div>
-</div>
-<div class="product-row">
-	<h1 class="category-title">Category 3</h1>
-	<div class="product-holder">
-		<ProductCard />
-		<ProductCard />
-	</div> -->
-<!-- </div> -->
 
 <style>
-	.start-button:hover {
-		cursor: 'pointer';
+	.holder {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 40px 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 50px;
 	}
-	.start-button {
-		background: orangered;
-		font-size: 1.5rem;
-		padding: 5px;
-		border-radius: 6px;
+
+	.hero-section {
+		text-align: center;
+		padding: 60px 20px;
+		background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+		border-radius: 16px;
+		color: white;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 16px;
+	}
+
+	.hero-title {
+		font-size: 2.8rem;
+		margin: 0;
 		color: white;
 	}
-	.holder {
-		padding: 10px;
-		gap: 20px;
-		align-items: center;
-		justify-content: center;
+
+	.hero-subtitle {
+		font-size: 1.1rem;
+		color: #ccc;
+		margin: 0 0 10px 0;
+	}
+
+	.start-button {
+		background: orangered;
+		font-size: 1.2rem;
+		padding: 12px 30px;
+		border-radius: 8px;
+		color: white;
+		text-decoration: none;
+		font-weight: 600;
+		cursor: pointer;
+		transition: background-color 0.2s;
+	}
+
+	.start-button:hover {
+		background: #ff5252;
+	}
+
+	.category-sections {
 		display: flex;
 		flex-direction: column;
-		align-self: center;
-		height: 90vh;
+		gap: 40px;
 	}
-	.product-holder {
+
+	.category-header {
 		display: flex;
-		flex-direction: row;
-		gap: 10px;
+		justify-content: space-between;
 		align-items: center;
-		justify-content: center;
-		padding-top: 10px;
+		margin-bottom: 20px;
+		border-bottom: 2px solid #e0e0e0;
+		padding-bottom: 10px;
 	}
-	.product-row {
-		align-items: center;
-		justify-content: center;
-		display: flex;
-		flex-direction: column;
-	}
+
 	.category-title {
-		font-size: 2rem;
+		font-size: 1.8rem;
 		color: orangered;
+		margin: 0;
+	}
+
+	.view-category-link {
+		color: #ff6b6b;
+		text-decoration: none;
+		font-weight: 600;
+		font-size: 0.95rem;
+	}
+
+	.view-category-link:hover {
+		text-decoration: underline;
+	}
+
+	.product-holder {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+		gap: 24px;
 	}
 </style>
