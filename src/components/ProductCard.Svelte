@@ -69,20 +69,20 @@
 					<div class="placeholder">No Image</div>
 				{/if}
 			</div>
-			<div class="bottom-card">
-				<h3>{product.name}</h3>
-				<p class="price">${product.price.toFixed(2)}</p>
-				<p class="description">{product.description}</p>
-			</div>
 		</div>
 	</a>
 	<div class="quantity-buy">
-		<div class="change-quantity">
+		<!-- changing quantity solely from cart page or product page -->
+		<!-- <div class="change-quantity">
 			<button class="decrement" onclick={() => count > 1 && count--}>-</button>
 			<p class="item-count">{count}</p>
 			<button class="increment" onclick={() => count++}>+</button>
-		</div>
+		</div> -->
 		<button class="add-cart-btn" onclick={addToCart}>Add to Cart</button>
+	</div>
+	<div class="bottom-card">
+		<p class="price">${product.price.toFixed(2)}</p>
+		<h3>{product.name}</h3>
 	</div>
 </div>
 
@@ -100,7 +100,9 @@
 		overflow: hidden;
 		display: flex;
 		flex-direction: column;
-		transition: transform 0.2s, box-shadow 0.2s;
+		transition:
+			transform 0.2s,
+			box-shadow 0.2s;
 	}
 
 	.product-card:hover {
@@ -134,7 +136,9 @@
 		padding: 0;
 		cursor: pointer;
 		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-		transition: transform 0.15s ease, background-color 0.2s ease;
+		transition:
+			transform 0.15s ease,
+			background-color 0.2s ease;
 		z-index: 2;
 	}
 
@@ -154,28 +158,18 @@
 	}
 
 	.bottom-card {
-		background-color: grey;
-		padding: 1rem;
-		color: white;
+		color: black;
 		width: 100%;
-		box-sizing: border-box;
+		font-weight: 500;
 	}
 
 	.bottom-card h3 {
-		margin: 0 0 8px 0;
 		font-size: 1.1rem;
 	}
 
 	.price {
 		font-weight: bold;
 		font-size: 1.2rem;
-		margin: 8px 0;
-	}
-
-	.description {
-		margin: 0;
-		font-size: 0.9rem;
-		opacity: 0.9;
 	}
 
 	button {
@@ -210,7 +204,7 @@
 		flex-direction: column;
 		align-items: center;
 		gap: 10px;
-		padding: 10px;
+		padding-top: 10px;
 	}
 
 	.change-quantity {
