@@ -1,4 +1,4 @@
-import { getProductById } from '$lib/products.js';
+import { getProductById, products } from '$lib/products.js';
 import { error } from '@sveltejs/kit';
 
 export const load = ({ params }) => {
@@ -8,7 +8,12 @@ export const load = ({ params }) => {
 		throw error(404, 'Product not found');
 	}
 
+	const relatedProducts = products.filter(
+		(p) => p.category === product.category && String(p.id) !== String(product.id)
+	);
+
 	return {
-		product
+		product,
+		relatedProducts
 	};
 };

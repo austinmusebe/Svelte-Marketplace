@@ -20,7 +20,8 @@
 		products
 			.filter((product) => {
 				const matchesCategory =
-					selectedCategory === 'All' || product.category.toLowerCase() === selectedCategory.toLowerCase();
+					selectedCategory === 'All' ||
+					product.category.toLowerCase() === selectedCategory.toLowerCase();
 				const matchesSearch =
 					!searchQuery.trim() ||
 					product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -46,10 +47,7 @@
 			<h1>Our Products</h1>
 			<p class="subtitle">Showing {filteredProducts.length} items</p>
 		</div>
-		<button class="view-cart-btn" onclick={openCart}>
-			<span>🛒</span>
-			View Cart
-		</button>
+		<button class="view-cart-btn" onclick={openCart}> View Cart </button>
 	</div>
 
 	<div class="filter-bar">

@@ -12,7 +12,8 @@
 			price: 0,
 			image: '',
 			description: ''
-		}
+		},
+		showWishlist = true
 	} = $props();
 
 	let count = $state(1);
@@ -45,21 +46,23 @@
 	<a href={`/product/${product.id}`} class="card-link">
 		<div class="product-card">
 			<div class="top-card">
-				<button
-					type="button"
-					class="wishlist-btn"
-					class:favorited={isFavorite}
-					onclick={toggleWishlist}
-					aria-label={isFavorite ? 'Remove from wishlist' : 'Add to wishlist'}
-					title={isFavorite ? 'Remove from wishlist' : 'Add to wishlist'}
-				>
-					<Heart
-						size={18}
-						fill={isFavorite ? '#ff4757' : 'none'}
-						color={isFavorite ? '#ff4757' : '#555555'}
-						strokeWidth={2.2}
-					/>
-				</button>
+				{#if showWishlist}
+					<button
+						type="button"
+						class="wishlist-btn"
+						class:favorited={isFavorite}
+						onclick={toggleWishlist}
+						aria-label={isFavorite ? 'Remove from wishlist' : 'Add to wishlist'}
+						title={isFavorite ? 'Remove from wishlist' : 'Add to wishlist'}
+					>
+						<Heart
+							size={18}
+							fill={isFavorite ? '#ff4757' : 'none'}
+							color={isFavorite ? '#ff4757' : '#555555'}
+							strokeWidth={2.2}
+						/>
+					</button>
+				{/if}
 				{#if product.image}
 					<img src={product.image} alt={product.name} />
 				{:else}

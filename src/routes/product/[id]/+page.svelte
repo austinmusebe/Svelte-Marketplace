@@ -1,11 +1,13 @@
 <script>
 	import { cart, isCartOpen } from '../../../stores/cart.js';
 	import { wishlist } from '../../../stores/wishlist.js';
+	import ProductCard from '../../../components/ProductCard.svelte';
 	import { Heart } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 
 	let { data } = $props();
 	let product = $derived(data.product);
+	let relatedProducts = $derived(data.relatedProducts || []);
 
 	let count = $state(1);
 	let selectedVariant = $state(product.variants?.[0] || '');
@@ -155,6 +157,17 @@
 			</div>
 		</div>
 	</div>
+
+	{#if relatedProducts && relatedProducts.length > 0}
+		<section class="related-section">
+			<h2>Related Products ({product.category})</h2>
+			<div class="related-grid">
+				{#each relatedProducts as relatedProduct (relatedProduct.id)}
+					<ProductCard product={relatedProduct} showWishlist={false} />
+				{/each}
+			</div>
+		</section>
+	{/if}
 </div>
 
 <style>
@@ -465,10 +478,35 @@
 		color: #ff6b6b;
 	}
 
+	.related-section {
+		margin-top: 48px;
+		background-color: white;
+		border-radius: 16px;
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+		padding: 32px;
+	}
+
+	.related-section h2 {
+		margin: 0 0 24px 0;
+		font-size: 1.5rem;
+		color: #1a1a1a;
+		font-weight: 700;
+	}
+
+	.related-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+		gap: 20px;
+	}
+
 	@media (max-width: 850px) {
 		.product-detail-card {
 			grid-template-columns: 1fr;
 			padding: 24px;
+		}
+
+		.related-section {
+			padding: 20px;
 		}
 
 		.product-title {
