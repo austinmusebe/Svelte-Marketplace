@@ -1,6 +1,8 @@
 <script>
 	import Button from './Button.svelte';
 	import { cart, isCartOpen } from '../stores/cart.js';
+	import { wishlist } from '../stores/wishlist.js';
+	import { Heart } from 'lucide-svelte';
 
 	// Use let instead of default object
 	let {
@@ -10,10 +12,20 @@
 			price: 0,
 			image: '',
 			description: ''
-		}
+		},
+		showWishlist = true
 	} = $props();
 
 	let count = $state(1);
+	let wishlistItems = $state([]);
+
+	$effect(() => {
+		wishlist.subscribe((items) => {
+			wishlistItems = items;
+		});
+	});
+
+	let isFavorite = $derived(wishlistItems.some((item) => String(item.id) === String(product.id)));
 
 	function addToCart() {
 		if (count > 0) {
@@ -22,12 +34,35 @@
 			count = 1; // Reset count after adding
 		}
 	}
+
+	function toggleWishlist(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		wishlist.toggleItem(product);
+	}
 </script>
 
 <div>
 	<a href={`/product/${product.id}`} class="card-link">
 		<div class="product-card">
 			<div class="top-card">
+				{#if showWishlist}
+					<button
+						type="button"
+						class="wishlist-btn"
+						class:favorited={isFavorite}
+						onclick={toggleWishlist}
+						aria-label={isFavorite ? 'Remove from wishlist' : 'Add to wishlist'}
+						title={isFavorite ? 'Remove from wishlist' : 'Add to wishlist'}
+					>
+						<Heart
+							size={18}
+							fill={isFavorite ? '#ff4757' : 'none'}
+							color={isFavorite ? '#ff4757' : '#555555'}
+							strokeWidth={2.2}
+						/>
+					</button>
+				{/if}
 				{#if product.image}
 					<img src={product.image} alt={product.name} />
 				{:else}
@@ -80,6 +115,32 @@
 		align-items: center;
 		justify-content: center;
 		width: 100%;
+		position: relative;
+	}
+
+	button.wishlist-btn {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		background-color: rgba(255, 255, 255, 0.9);
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		border-radius: 50%;
+		width: 36px;
+		height: 36px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.1rem;
+		padding: 0;
+		cursor: pointer;
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+		transition: transform 0.15s ease, background-color 0.2s ease;
+		z-index: 2;
+	}
+
+	button.wishlist-btn:hover {
+		transform: scale(1.1);
+		background-color: #ffffff;
 	}
 
 	.top-card img {

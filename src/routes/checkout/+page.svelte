@@ -3,6 +3,7 @@
 	import { cart } from '../../stores/cart';
 	import { currentUser } from '../../stores/user';
 	import { addresses, defaultAddress } from '../../stores/addresses.js';
+	import { Lock } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 
 	let user = $state(null);
@@ -459,7 +460,9 @@
 					</div>
 
 					<div class="payment-notice">
-						<span class="lock-icon">🔒</span>
+						<span class="lock-icon">
+							<Lock size={18} />
+						</span>
 						<p>Your payment information is secure and encrypted</p>
 					</div>
 
@@ -733,7 +736,9 @@
 	}
 
 	.lock-icon {
-		font-size: 1.5rem;
+		display: flex;
+		align-items: center;
+		color: #0284c7;
 	}
 
 	.payment-notice p {

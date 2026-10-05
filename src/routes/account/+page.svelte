@@ -4,6 +4,9 @@
 	import { goto } from '$app/navigation';
 	import { currentUser } from '../../stores/user.js';
 	import { addresses } from '../../stores/addresses.js';
+	import { wishlist } from '../../stores/wishlist.js';
+	import { cart, isCartOpen } from '../../stores/cart.js';
+	import { Heart, MapPin, Package } from 'lucide-svelte';
 	import { invalidateAll } from '$app/navigation';
 
 	let user = $state(null);
@@ -11,6 +14,7 @@
 	 * @type {string | any[] | null | undefined}
 	 */
 	let userAddresses = $state([]);
+	let wishlistItems = $state([]);
 	let { data } = $props();
 	let userOrders = $derived(data?.orders || []);
 
@@ -36,6 +40,21 @@
 			userAddresses = addrs;
 		});
 	});
+
+	$effect(() => {
+		wishlist.subscribe((items) => {
+			wishlistItems = items;
+		});
+	});
+
+	function addToCartFromWishlist(product) {
+		cart.addItem(product, 1);
+		isCartOpen.set(true);
+	}
+
+	function removeFromWishlist(productId) {
+		wishlist.removeItem(productId);
+	}
 
 	let isEditingProfile = $state(false);
 	let isEditingPassword = $state(false);
@@ -397,7 +416,10 @@
 									</div>
 								</div>
 
-								<button class="search-map-btn" onclick={searchAddress}> 📍 Find on Map </button>
+								<button class="search-map-btn" onclick={searchAddress}>
+									<MapPin size={16} />
+									<span>Find on Map</span>
+								</button>
 
 								<div class="map-container" bind:this={mapContainer}></div>
 								<p class="map-hint">Drag the marker to adjust the location</p>
@@ -411,7 +433,9 @@
 							</div>
 						{:else if userAddresses.length === 0}
 							<div class="empty-state">
-								<span class="empty-icon">📍</span>
+								<span class="empty-icon">
+									<MapPin size={40} color="#bbb" />
+								</span>
 								<p>No addresses saved yet</p>
 								<button class="add-first-btn" onclick={startAddingAddress}>
 									Add Your First Address
@@ -464,7 +488,9 @@
 					<div class="card-body">
 						{#if userOrders.length === 0}
 							<div class="empty-state">
-								<span class="empty-icon">📦</span>
+								<span class="empty-icon">
+									<Package size={40} color="#bbb" />
+								</span>
 								<p>No orders placed yet</p>
 								<a href="/home" class="add-first-btn">Start Shopping</a>
 							</div>
@@ -496,9 +522,65 @@
 
 										<div class="order-card-footer">
 											<span class="shipping-dest">
-												📍 Shipping to: {order.shipping?.fullName || ''}, {order.shipping?.city || ''}
+												<MapPin size={14} />
+												<span>Shipping to: {order.shipping?.fullName || ''}, {order.shipping?.city || ''}</span>
 											</span>
 											<span class="order-status-badge">Completed</span>
+										</div>
+									</div>
+								{/each}
+							</div>
+						{/if}
+					</div>
+				</section>
+
+				<!-- Wishlist Section -->
+				<section class="content-card" id="wishlist">
+					<div class="card-header">
+						<h2>My Wishlist</h2>
+						<span class="orders-count">{wishlistItems.length} {wishlistItems.length === 1 ? 'item' : 'items'}</span>
+					</div>
+					<div class="card-body">
+						{#if wishlistItems.length === 0}
+							<div class="empty-state">
+								<span class="empty-icon">
+									<Heart size={40} color="#bbb" />
+								</span>
+								<p>Your wishlist is empty</p>
+								<a href="/home" class="add-first-btn">Explore Products</a>
+							</div>
+						{:else}
+							<div class="wishlist-grid">
+								{#each wishlistItems as item (item.id)}
+									<div class="wishlist-card">
+										<a href={`/product/${item.id}`} class="wishlist-image-wrap">
+											{#if item.image}
+												<img src={item.image} alt={item.name} class="wishlist-card-img" />
+											{:else}
+												<div class="wishlist-no-img">No Image</div>
+											{/if}
+										</a>
+										<div class="wishlist-card-body">
+											<span class="wishlist-category">{item.category}</span>
+											<a href={`/product/${item.id}`} class="wishlist-title">{item.name}</a>
+											<span class="wishlist-price">${item.price.toFixed(2)}</span>
+											<div class="wishlist-btns">
+												<button
+													type="button"
+													class="wishlist-cart-btn"
+													onclick={() => addToCartFromWishlist(item)}
+												>
+													Add to Cart
+												</button>
+												<button
+													type="button"
+													class="wishlist-del-btn"
+													onclick={() => removeFromWishlist(item.id)}
+													title="Remove from wishlist"
+												>
+													Remove
+												</button>
+											</div>
 										</div>
 									</div>
 								{/each}
@@ -808,6 +890,10 @@
 		cursor: pointer;
 		transition: background-color 0.2s;
 		margin-bottom: 16px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
 	}
 
 	.search-map-btn:hover {
@@ -1055,6 +1141,12 @@
 		gap: 8px;
 	}
 
+	.shipping-dest {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+	}
+
 	.order-status-badge {
 		background-color: #e8f5e9;
 		color: #2e7d32;
@@ -1062,5 +1154,123 @@
 		padding: 4px 10px;
 		border-radius: 12px;
 		font-size: 0.8rem;
+	}
+
+	/* Wishlist Styles */
+	.wishlist-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+		gap: 20px;
+	}
+
+	.wishlist-card {
+		background-color: white;
+		border: 1px solid #e0e0e0;
+		border-radius: 12px;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		transition: transform 0.2s, box-shadow 0.2s;
+	}
+
+	.wishlist-card:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+	}
+
+	.wishlist-image-wrap {
+		background-color: #1a1a1a;
+		height: 160px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		text-decoration: none;
+	}
+
+	.wishlist-card-img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.wishlist-no-img {
+		color: #999;
+		font-size: 0.9rem;
+	}
+
+	.wishlist-card-body {
+		padding: 14px;
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		flex: 1;
+	}
+
+	.wishlist-category {
+		font-size: 0.75rem;
+		color: #888;
+		text-transform: uppercase;
+		font-weight: 600;
+		letter-spacing: 0.5px;
+	}
+
+	.wishlist-title {
+		font-size: 1rem;
+		font-weight: 600;
+		color: #1a1a1a;
+		text-decoration: none;
+		line-height: 1.3;
+	}
+
+	.wishlist-title:hover {
+		color: #ff6b6b;
+	}
+
+	.wishlist-price {
+		font-size: 1.1rem;
+		font-weight: 700;
+		color: #ff6b6b;
+		margin: 4px 0 8px 0;
+	}
+
+	.wishlist-btns {
+		display: flex;
+		gap: 8px;
+		margin-top: auto;
+	}
+
+	.wishlist-cart-btn {
+		flex: 1;
+		background-color: #ff6b6b;
+		color: white;
+		border: none;
+		padding: 8px 12px;
+		border-radius: 6px;
+		font-size: 0.85rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: background-color 0.2s;
+	}
+
+	.wishlist-cart-btn:hover {
+		background-color: #ff5252;
+	}
+
+	.wishlist-del-btn {
+		background-color: #f0f0f0;
+		color: #666;
+		border: none;
+		padding: 8px 12px;
+		border-radius: 6px;
+		font-size: 0.85rem;
+		font-weight: 500;
+		cursor: pointer;
+		transition: background-color 0.2s, color 0.2s;
+	}
+
+	.wishlist-del-btn:hover {
+		background-color: #ffebee;
+		color: #d32f2f;
 	}
 </style>

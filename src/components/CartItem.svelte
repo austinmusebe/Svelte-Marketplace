@@ -1,5 +1,6 @@
 <script>
 	import { cart } from '../stores/cart.js';
+	import { Trash2 } from 'lucide-svelte';
 
 	let { item } = $props();
 
@@ -36,7 +37,9 @@
 	<div class="item-total">
 		<p>${(item.product.price * item.quantity).toFixed(2)}</p>
 	</div>
-	<button class="remove-btn" onclick={removeItem} aria-label="Remove item">🗑️</button>
+	<button class="remove-btn" onclick={removeItem} aria-label="Remove item">
+		<Trash2 size={16} />
+	</button>
 </div>
 
 <style>

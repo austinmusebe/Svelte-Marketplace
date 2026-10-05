@@ -2,6 +2,7 @@
 	import ProductCard from '../../components/ProductCard.svelte';
 	import { isCartOpen } from '../../stores/cart.js';
 	import { products, getCategories } from '$lib/products.js';
+	import { Search, X } from 'lucide-svelte';
 
 	let { data } = $props();
 
@@ -20,7 +21,8 @@
 		products
 			.filter((product) => {
 				const matchesCategory =
-					selectedCategory === 'All' || product.category.toLowerCase() === selectedCategory.toLowerCase();
+					selectedCategory === 'All' ||
+					product.category.toLowerCase() === selectedCategory.toLowerCase();
 				const matchesSearch =
 					!searchQuery.trim() ||
 					product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -46,10 +48,7 @@
 			<h1>Our Products</h1>
 			<p class="subtitle">Showing {filteredProducts.length} items</p>
 		</div>
-		<button class="view-cart-btn" onclick={openCart}>
-			<span>🛒</span>
-			View Cart
-		</button>
+		<button class="view-cart-btn" onclick={openCart}> View Cart </button>
 	</div>
 
 	<div class="filter-bar">
@@ -61,7 +60,9 @@
 				class="search-input"
 			/>
 			{#if searchQuery}
-				<button class="clear-search-btn" onclick={() => (searchQuery = '')}>✕</button>
+				<button class="clear-search-btn" onclick={() => (searchQuery = '')} aria-label="Clear search">
+					<X size={16} />
+				</button>
 			{/if}
 		</div>
 
@@ -91,7 +92,9 @@
 
 	{#if filteredProducts.length === 0}
 		<div class="empty-catalog">
-			<p class="empty-icon">🔍</p>
+			<div class="empty-icon">
+				<Search size={54} color="#bbb" />
+			</div>
 			<h2>No products found</h2>
 			<p>We couldn't find anything matching your search. Try another query or category.</p>
 			<button

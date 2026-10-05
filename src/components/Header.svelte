@@ -38,7 +38,7 @@
 			<div class="nav-links">
 				<a href="/home">Home</a>
 				<button class="btn-cart" onclick={openCart}>
-					🛒 Cart
+					Cart
 					{#if cartCount > 0}
 						<span class="cart-badge">{cartCount}</span>
 					{/if}
