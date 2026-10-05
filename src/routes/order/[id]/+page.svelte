@@ -1,4 +1,6 @@
 <script>
+	import { Check, CheckCircle2, Mail, Phone } from 'lucide-svelte';
+
 	let { data } = $props();
 	let order = $derived(data.order);
 </script>
@@ -6,7 +8,9 @@
 <div class="confirmation-container">
 	<div class="confirmation-card">
 		<div class="success-banner">
-			<span class="success-icon">✓</span>
+			<span class="success-icon">
+				<CheckCircle2 size={44} color="#27ae60" />
+			</span>
 			<h1>Order Confirmed!</h1>
 			<p class="order-number">Order ID: <strong>{order.orderId}</strong></p>
 			<p class="order-date">Placed on {new Date(order.date || order.createdAt).toLocaleDateString()}</p>
@@ -50,8 +54,14 @@
 						<p>{order.shipping.street}</p>
 						<p>{order.shipping.city}, {order.shipping.state} {order.shipping.zip}</p>
 						<p>{order.shipping.country}</p>
-						<p class="contact-info">📞 {order.shipping.phone}</p>
-						<p class="contact-info">✉️ {order.shipping.email}</p>
+						<p class="contact-info">
+							<Phone size={14} />
+							<span>{order.shipping.phone}</span>
+						</p>
+						<p class="contact-info">
+							<Mail size={14} />
+							<span>{order.shipping.email}</span>
+						</p>
 					</div>
 				</div>
 
@@ -62,7 +72,10 @@
 						{#if order.payment?.cardName}
 							<p>{order.payment.cardName}</p>
 						{/if}
-						<p class="payment-badge">✓ Payment Processed</p>
+						<p class="payment-badge">
+							<Check size={16} />
+							<span>Payment Processed</span>
+						</p>
 					</div>
 				</div>
 			</div>
@@ -269,10 +282,15 @@
 	.contact-info {
 		color: #777;
 		font-size: 0.9rem;
+		display: flex;
+		align-items: center;
+		gap: 6px;
 	}
 
 	.payment-badge {
-		display: inline-block;
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
 		color: #27ae60;
 		font-weight: 600;
 		font-size: 0.9rem;

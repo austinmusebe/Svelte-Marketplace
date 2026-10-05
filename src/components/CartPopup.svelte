@@ -2,6 +2,7 @@
 	import { cart, isCartOpen } from '../stores/cart.js';
 	import { goto } from '$app/navigation';
 	import CartItem from './CartItem.svelte';
+	import { ShoppingCart, X } from 'lucide-svelte';
 
 	let cartItems = $state([]);
 	let showCart = $state(false);
@@ -46,13 +47,17 @@
 		<div class="cart-popup" onclick={(e) => e.stopPropagation()} role="dialog">
 			<div class="cart-header">
 				<h2>Shopping Cart ({cartItems.length})</h2>
-				<button class="close-btn" onclick={closeCart}>✕</button>
+				<button class="close-btn" onclick={closeCart} aria-label="Close cart">
+					<X size={20} />
+				</button>
 			</div>
 
 			<div class="cart-body">
 				{#if cartItems.length === 0}
 					<div class="empty-cart">
-						<span class="empty-icon">🛒</span>
+						<span class="empty-icon">
+							<ShoppingCart size={48} color="#999" />
+						</span>
 						<p>Your cart is empty</p>
 						<button class="continue-shopping" onclick={closeCart}> Continue Shopping </button>
 					</div>

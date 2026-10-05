@@ -1,6 +1,7 @@
 <script>
 	import { cart } from '../../stores/cart.js';
 	import CartItem from '../../components/CartItem.svelte';
+	import { ShoppingCart } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 
 	let cartItems = $state([]);
@@ -32,7 +33,9 @@
 
 	{#if cartItems.length === 0}
 		<div class="empty-cart-card">
-			<span class="empty-icon">🛒</span>
+			<span class="empty-icon">
+				<ShoppingCart size={64} color="#bbb" />
+			</span>
 			<h2>Your cart is empty</h2>
 			<p>Looks like you haven't added anything to your cart yet.</p>
 			<a href="/home" class="btn-shop">Start Shopping</a>
