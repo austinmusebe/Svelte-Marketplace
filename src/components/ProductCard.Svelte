@@ -42,189 +42,162 @@
 	}
 </script>
 
-<div>
+<article class="product-card">
 	<a href={`/product/${product.id}`} class="card-link">
-		<div class="product-card">
-			<div class="top-card">
-				{#if showWishlist}
-					<button
-						type="button"
-						class="wishlist-btn"
-						class:favorited={isFavorite}
-						onclick={toggleWishlist}
-						aria-label={isFavorite ? 'Remove from wishlist' : 'Add to wishlist'}
-						title={isFavorite ? 'Remove from wishlist' : 'Add to wishlist'}
-					>
-						<Heart
-							size={18}
-							fill={isFavorite ? '#ff4757' : 'none'}
-							color={isFavorite ? '#ff4757' : '#555555'}
-							strokeWidth={2.2}
-						/>
-					</button>
-				{/if}
-				{#if product.image}
-					<img src={product.image} alt={product.name} />
-				{:else}
-					<div class="placeholder">No Image</div>
-				{/if}
-			</div>
+		<div class="card-image-wrapper">
+			{#if showWishlist}
+				<button
+					type="button"
+					class="wishlist-btn"
+					class:favorited={isFavorite}
+					onclick={toggleWishlist}
+					aria-label={isFavorite ? 'Remove from wishlist' : 'Add to wishlist'}
+					title={isFavorite ? 'Remove from wishlist' : 'Add to wishlist'}
+				>
+					<Heart
+						size={18}
+						fill={isFavorite ? 'var(--color-destructive)' : 'none'}
+						color={isFavorite ? 'var(--color-destructive)' : 'var(--text-subtle)'}
+						strokeWidth={2.2}
+					/>
+				</button>
+			{/if}
+			{#if product.image}
+				<img src={product.image} alt={product.name} />
+			{:else}
+				<div class="placeholder">No Image</div>
+			{/if}
+		</div>
+		<div class="card-content">
+			<div class="price">${product.price.toFixed(2)}</div>
+			<h3 class="product-title">{product.name}</h3>
 		</div>
 	</a>
-	<div class="quantity-buy">
-		<!-- changing quantity solely from cart page or product page -->
-		<!-- <div class="change-quantity">
-			<button class="decrement" onclick={() => count > 1 && count--}>-</button>
-			<p class="item-count">{count}</p>
-			<button class="increment" onclick={() => count++}>+</button>
-		</div> -->
+	<div class="card-actions">
 		<button class="add-cart-btn" onclick={addToCart}>Add to Cart</button>
 	</div>
-	<div class="bottom-card">
-		<p class="price">${product.price.toFixed(2)}</p>
-		<h3>{product.name}</h3>
-	</div>
-</div>
+</article>
 
 <style>
-	.card-link {
-		text-decoration: none;
-		color: inherit;
-		display: block;
-		cursor: pointer;
-	}
-
 	.product-card {
-		border: 1px solid #ddd;
-		border-radius: 8px;
+		background-color: var(--bg-surface);
+		border: 1px solid var(--border-default);
+		border-radius: var(--radius-lg);
 		overflow: hidden;
 		display: flex;
 		flex-direction: column;
-		transition:
-			transform 0.2s,
-			box-shadow 0.2s;
+		transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+		box-shadow: var(--shadow-card);
+		position: relative;
 	}
 
 	.product-card:hover {
 		transform: translateY(-2px);
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+		box-shadow: var(--shadow-card-hover);
+		border-color: var(--border-strong);
 	}
 
-	.top-card {
-		background-color: black;
-		height: 200px;
+	.card-link {
+		text-decoration: none;
+		color: inherit;
 		display: flex;
-		align-items: center;
-		justify-content: center;
+		flex-direction: column;
+		flex: 1;
+	}
+
+	.card-image-wrapper {
+		background-color: var(--bg-subtle);
+		aspect-ratio: 4 / 3;
 		width: 100%;
 		position: relative;
-	}
-
-	button.wishlist-btn {
-		position: absolute;
-		top: 10px;
-		right: 10px;
-		background-color: rgba(255, 255, 255, 0.9);
-		border: 1px solid rgba(0, 0, 0, 0.1);
-		border-radius: 50%;
-		width: 36px;
-		height: 36px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: 1.1rem;
-		padding: 0;
-		cursor: pointer;
-		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-		transition:
-			transform 0.15s ease,
-			background-color 0.2s ease;
-		z-index: 2;
+		overflow: hidden;
+		border-bottom: 1px solid var(--border-subtle);
 	}
 
-	button.wishlist-btn:hover {
-		transform: scale(1.1);
-		background-color: #ffffff;
-	}
-
-	.top-card img {
+	.card-image-wrapper img {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
 	}
 
 	.placeholder {
-		color: #999;
-	}
-
-	.bottom-card {
-		color: black;
-		width: 100%;
+		color: var(--text-subtle);
+		font-size: 0.875rem;
 		font-weight: 500;
 	}
 
-	.bottom-card h3 {
-		font-size: 1.1rem;
-	}
-
-	.price {
-		font-weight: bold;
-		font-size: 1.2rem;
-	}
-
-	button {
-		background-color: orangered;
-		color: white;
-		border: none;
-		border-radius: 8px;
-		padding: 8px;
-		cursor: pointer;
-		transition: background-color 0.2s;
-	}
-
-	button:hover {
-		background-color: #ff4500;
-	}
-
-	.increment,
-	.decrement {
-		border-radius: 50%;
-		width: 32px;
-		height: 32px;
-		padding: 0;
+	.wishlist-btn {
+		position: absolute;
+		top: 12px;
+		right: 12px;
+		background-color: var(--bg-surface);
+		border: 1px solid var(--border-default);
+		border-radius: var(--radius-full);
+		width: 36px;
+		height: 36px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: 1.2rem;
-		font-weight: bold;
+		padding: 0;
+		cursor: pointer;
+		box-shadow: var(--shadow-subtle);
+		transition: transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease;
+		z-index: 2;
 	}
 
-	.quantity-buy {
+	.wishlist-btn:hover {
+		transform: scale(1.05);
+		border-color: var(--border-strong);
+	}
+
+	.card-content {
+		padding: 16px;
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		gap: 10px;
-		padding-top: 10px;
+		gap: 4px;
 	}
 
-	.change-quantity {
-		display: flex;
-		flex-direction: row;
-		gap: 12px;
-		align-items: center;
-	}
-
-	.item-count {
-		margin: 0;
+	.price {
 		font-weight: 600;
-		min-width: 30px;
-		text-align: center;
+		font-size: 1.125rem;
+		color: var(--text-contrast);
+	}
+
+	.product-title {
+		font-size: 0.9375rem;
+		font-weight: 500;
+		color: var(--text-muted);
+		margin: 0;
+		line-height: 1.4;
+	}
+
+	.card-actions {
+		padding: 0 16px 16px 16px;
+		margin-top: auto;
 	}
 
 	.add-cart-btn {
 		width: 100%;
-		padding: 12px;
-		font-weight: 600;
-		font-size: 1rem;
+		background-color: var(--accent-primary);
+		color: #ffffff;
+		border: none;
+		border-radius: var(--radius-md);
+		padding: 10px;
+		font-size: 0.875rem;
+		font-weight: 500;
+		cursor: pointer;
+		transition: background-color 0.2s, transform 0.1s ease;
+	}
+
+	.add-cart-btn:hover {
+		background-color: var(--accent-hover);
+	}
+
+	.add-cart-btn:active {
+		transform: scale(0.98);
+		background-color: var(--accent-active);
 	}
 </style>
