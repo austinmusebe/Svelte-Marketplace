@@ -1,38 +1,46 @@
-# sv
+# SWE4070 Marketplace Project
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+This project is an online marketplace application created for the SWE4070 course. It shows web application development using Svelte and SvelteKit.
 
-## Creating a project
+## Prerequisites
 
-If you're seeing this, you've probably already done this step. Congrats!
+Before you start, ensure you have the following installed:
 
-```sh
-# create a new project in the current directory
-npx sv create
+- Node.js (version 18 or higher)
+- npm
+- MongoDB (running locally or an accessible remote instance)
 
-# create a new project in my-app
-npx sv create my-app
-```
+## Getting Started
 
-## Developing
+Follow these steps to run the application locally:
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/austinmusebe/swe4070project.git
+   cd swe4070project
+   ```
 
-```sh
-npm run dev
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+3. Configure environment variables:
+   Create a `.env` file in the root directory. Add the following settings:
+   ```env
+   MONGODB_URI=mongodb://localhost:27017/4070Svelte
+   ADMIN_USERNAME=admin
+   ADMIN_PASSWORD=admin1234
+   ```
 
-## Building
+4. Start the MongoDB service:
+   Ensure your MongoDB instance is running before you start the web server.
 
-To create a production version of your app:
+5. Start the development server:
+   ```sh
+   npm run dev
+   ```
 
-```sh
-npm run build
-```
+6. Open the application:
+   Navigate to `http://localhost:5173` in your web browser.
 
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
