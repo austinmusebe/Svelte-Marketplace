@@ -12,6 +12,7 @@
 	 */
 	let userAddresses = $state([]);
 	let { data } = $props();
+	let userOrders = $derived(data?.orders || []);
 
 	$effect(() => {
 		if (data?.addresses) {
@@ -446,6 +447,58 @@
 											<button class="action-link delete" onclick={() => deleteAddress(address.id)}>
 												Delete
 											</button>
+										</div>
+									</div>
+								{/each}
+							</div>
+						{/if}
+					</div>
+				</section>
+
+				<!-- Orders Section -->
+				<section class="content-card" id="orders">
+					<div class="card-header">
+						<h2>My Orders</h2>
+						<span class="orders-count">{userOrders.length} {userOrders.length === 1 ? 'order' : 'orders'}</span>
+					</div>
+					<div class="card-body">
+						{#if userOrders.length === 0}
+							<div class="empty-state">
+								<span class="empty-icon">📦</span>
+								<p>No orders placed yet</p>
+								<a href="/home" class="add-first-btn">Start Shopping</a>
+							</div>
+						{:else}
+							<div class="orders-list">
+								{#each userOrders as order}
+									<div class="order-card">
+										<div class="order-card-header">
+											<div class="order-header-left">
+												<span class="order-id-badge">{order.orderId}</span>
+												<span class="order-date-text">
+													{new Date(order.date || order.createdAt).toLocaleDateString()}
+												</span>
+											</div>
+											<div class="order-header-right">
+												<span class="order-total-amount">${order.total}</span>
+												<a href={`/order/${order.orderId}`} class="view-order-link">View Receipt →</a>
+											</div>
+										</div>
+
+										<div class="order-items-preview">
+											{#each order.items as item}
+												<div class="order-item-row">
+													<span class="item-name">{item.product.name} × {item.quantity}</span>
+													<span class="item-price">${(item.product.price * item.quantity).toFixed(2)}</span>
+												</div>
+											{/each}
+										</div>
+
+										<div class="order-card-footer">
+											<span class="shipping-dest">
+												📍 Shipping to: {order.shipping?.fullName || ''}, {order.shipping?.city || ''}
+											</span>
+											<span class="order-status-badge">Completed</span>
 										</div>
 									</div>
 								{/each}
@@ -894,5 +947,120 @@
 		.cancel-btn {
 			width: 100%;
 		}
+	}
+
+	/* Orders Styles */
+	.orders-count {
+		color: #666;
+		font-size: 0.95rem;
+		font-weight: 500;
+	}
+
+	.orders-list {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.order-card {
+		background-color: #f8f8f8;
+		border: 1px solid #e0e0e0;
+		border-radius: 12px;
+		padding: 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+	}
+
+	.order-card-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 10px;
+		border-bottom: 1px solid #e0e0e0;
+		padding-bottom: 12px;
+	}
+
+	.order-header-left {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.order-id-badge {
+		font-family: monospace;
+		font-weight: 700;
+		color: #1a1a1a;
+		background-color: white;
+		border: 1px solid #ddd;
+		padding: 4px 10px;
+		border-radius: 6px;
+		font-size: 0.9rem;
+	}
+
+	.order-date-text {
+		color: #777;
+		font-size: 0.9rem;
+	}
+
+	.order-header-right {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+	}
+
+	.order-total-amount {
+		font-size: 1.2rem;
+		font-weight: 700;
+		color: #ff6b6b;
+	}
+
+	.view-order-link {
+		color: #ff6b6b;
+		text-decoration: none;
+		font-weight: 600;
+		font-size: 0.9rem;
+		transition: color 0.2s;
+	}
+
+	.view-order-link:hover {
+		color: #ff5252;
+		text-decoration: underline;
+	}
+
+	.order-items-preview {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		background-color: white;
+		border-radius: 8px;
+		padding: 12px;
+	}
+
+	.order-item-row {
+		display: flex;
+		justify-content: space-between;
+		font-size: 0.95rem;
+		color: #444;
+	}
+
+	.order-card-footer {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		font-size: 0.85rem;
+		color: #666;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	.order-status-badge {
+		background-color: #e8f5e9;
+		color: #2e7d32;
+		font-weight: 600;
+		padding: 4px 10px;
+		border-radius: 12px;
+		font-size: 0.8rem;
 	}
 </style>
