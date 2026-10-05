@@ -1,5 +1,7 @@
 <script>
 	import { cart, isCartOpen } from '../../../stores/cart.js';
+	import { wishlist } from '../../../stores/wishlist.js';
+	import { Heart } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 
 	let { data } = $props();
@@ -7,6 +9,19 @@
 
 	let count = $state(1);
 	let selectedVariant = $state(product.variants?.[0] || '');
+	let wishlistItems = $state([]);
+
+	$effect(() => {
+		wishlist.subscribe((items) => {
+			wishlistItems = items;
+		});
+	});
+
+	let isFavorite = $derived(wishlistItems.some((item) => String(item.id) === String(product.id)));
+
+	function toggleWishlist() {
+		wishlist.toggleItem(product);
+	}
 
 	$effect(() => {
 		if (product.variants?.length) {
@@ -117,6 +132,21 @@
 				</button>
 				<button class="buy-now-btn" onclick={buyNow}>
 					Buy Now
+				</button>
+				<button
+					type="button"
+					class="wishlist-btn"
+					class:active={isFavorite}
+					onclick={toggleWishlist}
+					aria-label={isFavorite ? 'Remove from Wishlist' : 'Add to Wishlist'}
+				>
+					<Heart
+						size={18}
+						fill={isFavorite ? '#ff4757' : 'none'}
+						color={isFavorite ? '#ff4757' : '#555555'}
+						strokeWidth={2.2}
+					/>
+					<span>{isFavorite ? 'Wishlisted' : 'Wishlist'}</span>
 				</button>
 			</div>
 
@@ -385,6 +415,37 @@
 
 	.buy-now-btn:hover {
 		background-color: #333;
+	}
+
+	.wishlist-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		background-color: #f8f8f8;
+		border: 2px solid #e0e0e0;
+		color: #333;
+		padding: 14px 20px;
+		border-radius: 8px;
+		font-size: 1rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.2s;
+	}
+
+	.wishlist-btn:hover {
+		border-color: #ff6b6b;
+		background-color: #fff0f0;
+	}
+
+	.wishlist-btn.active {
+		border-color: #ff6b6b;
+		background-color: #fff5f5;
+		color: #ff6b6b;
+	}
+
+	.heart-icon {
+		font-size: 1.1rem;
 	}
 
 	.details-footer {
