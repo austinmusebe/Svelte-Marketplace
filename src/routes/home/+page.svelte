@@ -120,48 +120,49 @@
 	.container {
 		max-width: 1200px;
 		margin: 0 auto;
-		padding: 40px 20px;
+		padding: 32px 24px;
 	}
 
 	.header-section {
 		display: flex;
 		justify-content: space-between;
-		align-items: center;
-		margin-bottom: 24px;
+		align-items: flex-end;
+		margin-bottom: 32px;
 	}
 
 	.header-section h1 {
-		margin: 0 0 6px 0;
-		font-size: 2.2rem;
-		color: #1a1a1a;
+		margin: 0 0 4px 0;
+		font-size: 2rem;
+		font-weight: 700;
+		letter-spacing: -0.025em;
+		color: var(--text-contrast);
 	}
 
 	.subtitle {
 		margin: 0;
-		color: #666;
-		font-size: 0.95rem;
+		color: var(--text-muted);
+		font-size: 0.9375rem;
 	}
 
 	.view-cart-btn {
-		background-color: #ff6b6b;
-		color: white;
-		border: none;
-		padding: 12px 24px;
-		border-radius: 10px;
-		font-weight: 600;
+		background-color: transparent;
+		color: var(--text-contrast);
+		border: 1px solid var(--border-default);
+		padding: 10px 20px;
+		border-radius: var(--radius-md);
+		font-weight: 500;
+		font-size: 0.875rem;
 		cursor: pointer;
 		display: flex;
 		align-items: center;
 		gap: 8px;
-		transition: background-color 0.2s;
+		transition: all 0.2s;
+		box-shadow: var(--shadow-subtle);
 	}
 
 	.view-cart-btn:hover {
-		background-color: #ff5252;
-	}
-
-	.view-cart-btn span {
-		font-size: 1.2rem;
+		background-color: var(--bg-subtle);
+		border-color: var(--border-strong);
 	}
 
 	.filter-bar {
@@ -169,7 +170,7 @@
 		justify-content: space-between;
 		align-items: center;
 		gap: 20px;
-		margin-bottom: 20px;
+		margin-bottom: 24px;
 		flex-wrap: wrap;
 	}
 
@@ -181,18 +182,25 @@
 
 	.search-input {
 		width: 100%;
-		padding: 12px 36px 12px 16px;
-		background-color: white;
-		border: 1px solid #ddd;
-		border-radius: 8px;
-		font-size: 0.95rem;
+		padding: 10px 36px 10px 16px;
+		background-color: var(--bg-surface);
+		border: 1px solid var(--border-default);
+		border-radius: var(--radius-md);
+		font-size: 0.875rem;
+		color: var(--text-body);
 		box-sizing: border-box;
-		transition: border-color 0.2s;
+		transition: border-color 0.2s, box-shadow 0.2s;
+		box-shadow: var(--shadow-subtle);
 	}
 
 	.search-input:focus {
 		outline: none;
-		border-color: #ff6b6b;
+		border-color: var(--border-focus);
+		box-shadow: 0 0 0 1px var(--border-focus);
+	}
+
+	.search-input::placeholder {
+		color: var(--text-subtle);
 	}
 
 	.clear-search-btn {
@@ -202,118 +210,134 @@
 		transform: translateY(-50%);
 		background: none;
 		border: none;
-		color: #999;
+		color: var(--text-subtle);
 		cursor: pointer;
-		font-size: 1rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		padding: 4px;
+		transition: color 0.2s;
 	}
 
 	.clear-search-btn:hover {
-		color: #333;
+		color: var(--text-contrast);
 	}
 
 	.sort-wrap {
 		display: flex;
 		align-items: center;
-		gap: 10px;
+		gap: 12px;
 	}
 
 	.sort-wrap label {
-		font-size: 0.9rem;
-		font-weight: 600;
-		color: #555;
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: var(--text-muted);
 	}
 
 	.sort-select {
-		padding: 10px 14px;
-		background-color: white;
-		border: 1px solid #ddd;
-		border-radius: 8px;
-		font-size: 0.95rem;
-		color: #333;
+		padding: 10px 32px 10px 16px;
+		background-color: var(--bg-surface);
+		border: 1px solid var(--border-default);
+		border-radius: var(--radius-md);
+		font-size: 0.875rem;
+		color: var(--text-body);
 		cursor: pointer;
+		appearance: none;
+		/* Inline SVG chevron to replace the default browser dropdown arrow with a clean custom icon */
+		background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2318181b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+		background-repeat: no-repeat;
+		background-position: right 12px center;
+		background-size: 10px auto;
+		box-shadow: var(--shadow-subtle);
+		transition: border-color 0.2s, box-shadow 0.2s;
 	}
 
 	.sort-select:focus {
 		outline: none;
-		border-color: #ff6b6b;
+		border-color: var(--border-focus);
+		box-shadow: 0 0 0 1px var(--border-focus);
 	}
 
 	.category-tabs {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 10px;
-		margin-bottom: 30px;
+		gap: 8px;
+		margin-bottom: 32px;
 	}
 
 	.category-tab {
-		background-color: white;
-		border: 1px solid #ddd;
-		color: #555;
-		padding: 8px 18px;
-		border-radius: 20px;
-		font-size: 0.9rem;
+		background-color: var(--bg-surface);
+		border: 1px solid var(--border-default);
+		color: var(--text-muted);
+		padding: 6px 16px;
+		border-radius: var(--radius-full);
+		font-size: 0.875rem;
 		font-weight: 500;
 		cursor: pointer;
 		transition: all 0.2s;
 	}
 
 	.category-tab:hover {
-		border-color: #ff6b6b;
-		color: #ff6b6b;
+		border-color: var(--border-strong);
+		color: var(--text-contrast);
 	}
 
 	.category-tab.active {
-		background-color: #ff6b6b;
-		border-color: #ff6b6b;
-		color: white;
-		font-weight: 600;
+		background-color: var(--text-contrast);
+		border-color: var(--text-contrast);
+		color: var(--bg-surface);
 	}
 
 	.empty-catalog {
-		background-color: white;
-		border-radius: 12px;
-		padding: 60px 20px;
+		background-color: var(--bg-surface);
+		border: 1px solid var(--border-default);
+		border-radius: var(--radius-lg);
+		padding: 64px 24px;
 		text-align: center;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+		box-shadow: var(--shadow-subtle);
 	}
 
 	.empty-icon {
-		font-size: 3.5rem;
-		margin-bottom: 12px;
-		opacity: 0.5;
+		margin-bottom: 16px;
+		color: var(--text-subtle);
 	}
 
 	.empty-catalog h2 {
 		margin: 0 0 8px 0;
-		font-size: 1.5rem;
-		color: #1a1a1a;
+		font-size: 1.25rem;
+		color: var(--text-contrast);
+		font-weight: 600;
 	}
 
 	.empty-catalog p {
-		margin: 0 0 20px 0;
-		color: #666;
+		margin: 0 0 24px 0;
+		color: var(--text-muted);
+		font-size: 0.9375rem;
 	}
 
 	.reset-btn {
-		background-color: #ff6b6b;
-		color: white;
-		border: none;
+		background-color: var(--bg-surface);
+		color: var(--text-contrast);
+		border: 1px solid var(--border-default);
 		padding: 10px 20px;
-		border-radius: 8px;
-		font-weight: 600;
+		border-radius: var(--radius-md);
+		font-weight: 500;
+		font-size: 0.875rem;
 		cursor: pointer;
-		transition: background-color 0.2s;
+		transition: all 0.2s;
+		box-shadow: var(--shadow-subtle);
 	}
 
 	.reset-btn:hover {
-		background-color: #ff5252;
+		background-color: var(--bg-subtle);
+		border-color: var(--border-strong);
 	}
 
 	.product-section {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-		gap: 30px;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: 24px;
 	}
 
 	@media (max-width: 768px) {
