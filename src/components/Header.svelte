@@ -80,7 +80,7 @@
 		white-space: nowrap;
 	}
 	.business a {
-		color: var(--text-contrast);
+		color: var(--accent-primary);
 		font-weight: 700;
 		letter-spacing: -0.025em;
 		text-decoration: none;
@@ -115,17 +115,20 @@
 		font-size: 0.875rem;
 	}
 	.btn-logout {
-		background: transparent;
-		color: var(--text-muted);
-		border: none;
+		background: #fff4ed;
+		color: var(--accent-primary);
+		border: 1px solid #ffdcd0;
 		font-size: 0.875rem;
 		font-weight: 500;
 		cursor: pointer;
-		transition: color 0.2s;
-		padding: 0;
+		transition: all 0.2s;
+		padding: 6px 12px;
+		border-radius: var(--radius-md);
 	}
 	.btn-logout:hover {
-		color: var(--color-destructive);
+		background: var(--accent-primary);
+		color: #ffffff;
+		border-color: var(--accent-primary);
 	}
 	.btn-cart {
 		background: var(--bg-surface);
@@ -147,8 +150,8 @@
 		background-color: var(--bg-subtle);
 	}
 	.cart-badge {
-		background-color: var(--text-contrast);
-		color: var(--bg-surface);
+		background-color: var(--accent-primary);
+		color: #ffffff;
 		border-radius: var(--radius-full);
 		padding: 2px 6px;
 		font-size: 0.6875rem;

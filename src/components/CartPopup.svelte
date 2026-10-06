@@ -73,8 +73,8 @@
 							<span>Total:</span>
 							<span class="total-amount">${total.toFixed(2)}</span>
 						</div>
-						<button class="checkout-btn" onclick={proceedToCheckout}> Proceed to Checkout </button>
-						<a href="/cart" class="view-cart-link" onclick={closeCart}> View Full Cart </a>
+						<button class="checkout-btn" onclick={() => { isCartOpen.set(false); goto('/cart'); }}> View Full Cart </button>
+						<a href="/checkout" class="view-cart-link" onclick={closeCart}> Proceed to Checkout </a>
 						<button class="continue-btn" onclick={closeCart}> Continue Shopping </button>
 					</div>
 				{/if}
