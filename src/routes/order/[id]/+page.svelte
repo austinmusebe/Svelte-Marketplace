@@ -119,8 +119,8 @@
 		width: 64px;
 		height: 64px;
 		border-radius: var(--radius-full);
-		background-color: var(--accent-primary);
-		color: var(--bg-surface);
+		background-color: #fff4ed;
+		color: var(--text-contrast);
 		font-size: 2.2rem;
 		font-weight: bold;
 		margin-bottom: 16px;
