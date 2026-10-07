@@ -2,6 +2,12 @@ import headphones from '$lib/assets/headphones.jpg';
 import watch from '$lib/assets/watch.jpg';
 import keyboard from '$lib/assets/keyboard.jpg';
 import cable from '$lib/assets/cable.jpg';
+import noiseCancellingPods from '$lib/assets/noise_cancelling_pods.jpg';
+import studioMonitors from '$lib/assets/studio_monitors.jpg';
+import hybridSmartwatch from '$lib/assets/hybrid_smartwatch.jpg';
+import ruggedSmartwatch from '$lib/assets/rugged_smartwatch.jpg';
+import splitKeyboard from '$lib/assets/split_keyboard.jpg';
+import magneticCable from '$lib/assets/magnetic_cable.jpg';
 
 export const products = [
 	{
@@ -83,6 +89,66 @@ export const products = [
 		description: '3-in-1 multi charger with USB-C, Lightning, and Micro USB connectors.',
 		stock: 30,
 		variants: ['Red Braided', 'Black Braided']
+	},
+	{
+		id: '9',
+		name: 'Noise-Cancelling Pods',
+		price: 149.99,
+		image: noiseCancellingPods,
+		category: 'Audio',
+		description: 'Ultra-compact wireless pods featuring smart touch controls, adaptive EQ, and 24-hour battery case.',
+		stock: 18,
+		variants: ['Matte White', 'Charcoal', 'Lilac']
+	},
+	{
+		id: '10',
+		name: 'Over-Ear Studio Monitors',
+		price: 249.99,
+		image: studioMonitors,
+		category: 'Audio',
+		description: 'Professional-grade flat response headphones for mixing, mastering, and critical listening.',
+		stock: 7,
+		variants: ['Studio Black']
+	},
+	{
+		id: '11',
+		name: 'Hybrid Chronograph Smartwatch',
+		price: 179.99,
+		image: hybridSmartwatch,
+		category: 'Wearables',
+		description: 'Blends classic analog hands with a hidden OLED display for modern notification syncing.',
+		stock: 11,
+		variants: ['Stainless Steel', 'Leather Brown']
+	},
+	{
+		id: '12',
+		name: 'Rugged Outdoor GPS Watch',
+		price: 299.99,
+		image: ruggedSmartwatch,
+		category: 'Wearables',
+		description: 'Military-grade durability with built-in topographic maps, altimeter, and a 30-day battery life.',
+		stock: 4,
+		variants: ['Camo Green', 'Stealth Black']
+	},
+	{
+		id: '13',
+		name: 'Ergonomic Split Keyboard',
+		price: 139.99,
+		image: splitKeyboard,
+		category: 'Accessories',
+		description: 'A split ergonomic mechanical keyboard designed to reduce wrist strain and maximize typing efficiency.',
+		stock: 9,
+		variants: ['Tactile Brown', 'Silent Red']
+	},
+	{
+		id: '14',
+		name: 'Magnetic Charging Cable',
+		price: 14.99,
+		image: magneticCable,
+		category: 'Accessories',
+		description: 'Breakaway magnetic charging cable that protects your device port and connects instantly.',
+		stock: 60,
+		variants: ['1.5 Meters', '2 Meters']
 	}
 ];
 
