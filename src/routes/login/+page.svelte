@@ -16,153 +16,103 @@
 	});
 </script>
 
-<div class="container">
-	<div class="login-section">
-		<div class="left-card">
-			<img src="" alt="Login visual" class="placeholder" />
-		</div>
-		<div class="right-card">
-			<div class="details">
-				<h1>Welcome Back</h1>
-				<p>Don't have an account? <a href="/register">Sign up</a></p>
+<div class="auth-wrapper">
+	<div class="auth-card">
+		<div class="details">
+			<h1>Welcome Back</h1>
+			<p>Don't have an account? <a href="/register">Sign up</a></p>
 
-				{#if form?.error}
-					<div class="error-message">
-						{form.error}
-					</div>
-				{/if}
-
-				<form method="POST" use:enhance>
-					<div class="input-group">
-						<label for="email">Email</label>
-						<input
-							type="email"
-							id="email"
-							name="email"
-							bind:value={email}
-							placeholder="Enter your email"
-							class="user-pass"
-						/>
-					</div>
-
-					<div class="input-group">
-						<label for="password">Password</label>
-						<input
-							type="password"
-							id="password"
-							name="password"
-							bind:value={password}
-							placeholder="Enter your password"
-							class="user-pass"
-						/>
-					</div>
-
-					<div class="button-container">
-						<button type="submit" class="login-btn">Log In</button>
-					</div>
-				</form>
-				<div class="admin-link">
-					<a href="/admin-login">Admin Login →</a>
+			{#if form?.error}
+				<div class="error-message">
+					{form.error}
 				</div>
+			{/if}
+
+			<form method="POST" use:enhance>
+				<div class="input-group">
+					<label for="email">Email</label>
+					<input
+						type="email"
+						id="email"
+						name="email"
+						bind:value={email}
+						placeholder="Enter your email"
+						class="user-pass"
+					/>
+				</div>
+
+				<div class="input-group">
+					<label for="password">Password</label>
+					<input
+						type="password"
+						id="password"
+						name="password"
+						bind:value={password}
+						placeholder="Enter your password"
+						class="user-pass"
+					/>
+				</div>
+
+				<div class="button-container">
+					<button type="submit" class="login-btn">Log In</button>
+				</div>
+			</form>
+			<div class="admin-link">
+				<a href="/admin-login">Admin Login →</a>
 			</div>
 		</div>
 	</div>
 </div>
 
 <style>
-	:global(body) {
-		margin: 0;
-		padding: 0;
-		background-color: #f5f5f5;
-	}
-
-	.container {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		min-height: 100vh;
+	.auth-wrapper {
+		display: grid;
+		place-items: center;
+		min-height: calc(100vh - 80px);
+		background-color: var(--bg-canvas);
 		padding: 20px;
-	}
-
-	.login-section {
-		display: flex;
-		flex-direction: row;
 		width: 100%;
-		max-width: 1000px;
-		min-height: 600px;
-		background-color: white;
-		border-radius: 16px;
-		box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-		overflow: hidden;
 	}
 
-	.left-card {
-		flex: 1;
-		background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-		display: flex;
-		justify-content: center;
-		align-items: center;
+	.auth-card {
+		width: 100%;
+		max-width: 440px;
+		background-color: var(--bg-surface);
+		border: 1px solid var(--border-default);
+		border-radius: var(--radius-lg);
+		box-shadow: var(--shadow-card);
 		padding: 40px;
-		position: relative;
-	}
-
-	.left-card::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background:
-			radial-gradient(circle at 20% 50%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
-			radial-gradient(circle at 80% 80%, rgba(255, 193, 7, 0.1) 0%, transparent 50%);
-	}
-
-	.placeholder {
-		max-width: 100%;
-		max-height: 400px;
-		border-radius: 12px;
-		object-fit: cover;
-		position: relative;
-		z-index: 1;
-	}
-
-	.right-card {
-		flex: 1;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		padding: 40px;
-		background-color: white;
 	}
 
 	.details {
 		width: 100%;
-		max-width: 400px;
 	}
 
 	h1 {
-		font-size: 2rem;
-		color: #1a1a1a;
+		font-size: 1.75rem;
+		color: var(--text-contrast);
 		margin: 0 0 8px 0;
-		font-weight: 600;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		text-align: center;
 	}
 
 	p {
-		font-size: 0.95rem;
-		color: #666;
+		font-size: 0.9375rem;
+		color: var(--text-muted);
 		margin: 0 0 24px 0;
+		text-align: center;
 	}
 
 	a {
-		color: #ff6b6b;
+		color: var(--accent-primary);
 		text-decoration: none;
 		font-weight: 500;
 		transition: color 0.2s;
 	}
 
 	a:hover {
-		color: #ff5252;
+		color: var(--accent-hover);
 	}
 
 	form {
@@ -170,51 +120,47 @@
 	}
 
 	.error-message {
-		background-color: #fee;
-		color: #c33;
+		background-color: var(--color-destructive-bg);
+		color: var(--color-destructive);
 		padding: 12px;
-		border-radius: 8px;
+		border-radius: var(--radius-md);
 		margin-bottom: 20px;
-		font-size: 0.9rem;
-		border: 1px solid #fcc;
+		font-size: 0.875rem;
+		border: 1px solid rgba(220, 38, 38, 0.2);
 	}
 
 	.input-group {
-		margin-bottom: 20px;
+		margin-bottom: 16px;
 	}
 
 	label {
 		display: block;
-		font-size: 0.9rem;
+		font-size: 0.875rem;
 		font-weight: 500;
-		color: #333;
+		color: var(--text-body);
 		margin-bottom: 8px;
 	}
 
 	input {
 		width: 100%;
-		padding: 14px 16px;
-		background-color: #f8f8f8;
-		color: #1a1a1a;
-		border: 2px solid transparent;
-		border-radius: 10px;
-		font-size: 0.95rem;
+		padding: 12px 16px;
+		background-color: var(--bg-surface);
+		color: var(--text-contrast);
+		border: 1px solid var(--border-default);
+		border-radius: var(--radius-md);
+		font-size: 0.9375rem;
 		transition: all 0.2s;
 		box-sizing: border-box;
 	}
 
 	input:focus {
 		outline: none;
-		background-color: white;
-		border-color: #ff6b6b;
-	}
-
-	input:hover {
-		background-color: #f0f0f0;
+		border-color: var(--border-focus);
+		box-shadow: 0 0 0 1px var(--border-focus);
 	}
 
 	input::placeholder {
-		color: #999;
+		color: var(--text-subtle);
 	}
 
 	.button-container {
@@ -223,52 +169,44 @@
 
 	.login-btn {
 		width: 100%;
-		background-color: #ff6b6b;
-		color: white;
+		background-color: var(--accent-primary);
+		color: #ffffff;
 		border: none;
-		padding: 16px;
-		border-radius: 10px;
-		font-size: 1.1rem;
-		font-weight: 600;
+		padding: 14px;
+		border-radius: var(--radius-md);
+		font-size: 1rem;
+		font-weight: 500;
 		cursor: pointer;
-		transition: background-color 0.2s;
+		transition: background-color 0.2s, transform 0.1s ease;
+		box-shadow: var(--shadow-subtle);
 	}
 
 	.login-btn:hover {
-		background-color: #ff5252;
+		background-color: var(--accent-hover);
 	}
 
-	@media (max-width: 768px) {
-		.login-section {
-			flex-direction: column;
-			min-height: auto;
-		}
+	.login-btn:active {
+		transform: scale(0.98);
+	}
 
-		.left-card {
-			min-height: 250px;
-		}
-
-		.placeholder {
-			max-height: 200px;
-		}
-
-		h1 {
-			font-size: 1.75rem;
+	@media (max-width: 568px) {
+		.auth-card {
+			padding: 24px;
 		}
 	}
 	.admin-link {
 		text-align: center;
 		margin-top: 24px;
 		padding-top: 24px;
-		border-top: 1px solid #e0e0e0;
+		border-top: 1px solid var(--border-default);
 	}
 
 	.admin-link a {
-		color: #999;
-		font-size: 0.9rem;
+		color: var(--text-muted);
+		font-size: 0.875rem;
 	}
 
 	.admin-link a:hover {
-		color: #ff6b6b;
+		color: var(--text-contrast);
 	}
 </style>
