@@ -21,209 +21,144 @@
 	});
 </script>
 
-<div class="container">
-	<div class="register-section">
-		<div class="left-card">
-			<div class="welcome-content">
-				<h2>Join Us Today</h2>
-				<p>Start your journey with us and discover amazing products.</p>
-			</div>
-		</div>
-		<div class="right-card">
-			<div class="details">
-				<h1>Create Account</h1>
-				<p>Already have an account? <a href="/login">Sign in</a></p>
+<div class="auth-wrapper">
+	<div class="auth-card">
+		<div class="details">
+			<h1>Create Account</h1>
+			<p>Already have an account? <a href="/login">Sign in</a></p>
 
-				{#if form?.error}
-					<div class="error-message">
-						{form.error}
-					</div>
-				{/if}
+			{#if form?.error}
+				<div class="error-message">
+					{form.error}
+				</div>
+			{/if}
 
-				<form method="POST" use:enhance>
-					<div class="name-section">
-						<div class="input-group">
-							<label for="firstName">First Name</label>
-							<input
-								type="text"
-								id="firstName"
-								bind:value={firstName}
-								name="firstName"
-								placeholder="John"
-							/>
-						</div>
-
-						<div class="input-group">
-							<label for="lastName">Last Name</label>
-							<input
-								type="text"
-								id="lastName"
-								bind:value={lastName}
-								placeholder="Doe"
-								name="lastName"
-							/>
-						</div>
-					</div>
-
+			<form method="POST" use:enhance>
+				<div class="name-section">
 					<div class="input-group">
-						<label for="email">Email</label>
-						<input
-							type="email"
-							id="email"
-							name="email"
-							bind:value={email}
-							placeholder="john.doe@example.com"
-						/>
-					</div>
-
-					<div class="input-group">
-						<label for="username">Username</label>
+						<label for="firstName">First Name</label>
 						<input
 							type="text"
-							id="username"
-							name="username"
-							bind:value={username}
-							placeholder="Choose a username"
+							id="firstName"
+							bind:value={firstName}
+							name="firstName"
+							placeholder="John"
 						/>
 					</div>
 
 					<div class="input-group">
-						<label for="password">Password</label>
+						<label for="lastName">Last Name</label>
 						<input
-							type="password"
-							id="password"
-							name="password"
-							bind:value={password}
-							placeholder="Create a strong password"
+							type="text"
+							id="lastName"
+							bind:value={lastName}
+							placeholder="Doe"
+							name="lastName"
 						/>
 					</div>
+				</div>
 
-					<div class="input-group">
-						<label for="confirmPassword">Confirm Password</label>
-						<input
-							type="password"
-							id="confirmPassword"
-							name="confirmPassword"
-							bind:value={confirmPassword}
-							placeholder="Re-enter your password"
-						/>
-					</div>
+				<div class="input-group">
+					<label for="email">Email</label>
+					<input
+						type="email"
+						id="email"
+						name="email"
+						bind:value={email}
+						placeholder="john.doe@example.com"
+					/>
+				</div>
 
-					<div class="button-container">
-						<button type="submit" class="register-btn">Create Account</button>
-					</div>
-				</form>
-			</div>
+				<div class="input-group">
+					<label for="username">Username</label>
+					<input
+						type="text"
+						id="username"
+						name="username"
+						bind:value={username}
+						placeholder="Choose a username"
+					/>
+				</div>
+
+				<div class="input-group">
+					<label for="password">Password</label>
+					<input
+						type="password"
+						id="password"
+						name="password"
+						bind:value={password}
+						placeholder="Create a strong password"
+					/>
+				</div>
+
+				<div class="input-group">
+					<label for="confirmPassword">Confirm Password</label>
+					<input
+						type="password"
+						id="confirmPassword"
+						name="confirmPassword"
+						bind:value={confirmPassword}
+						placeholder="Re-enter your password"
+					/>
+				</div>
+
+				<div class="button-container">
+					<button type="submit" class="register-btn">Create Account</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
 
 <style>
-	:global(body) {
-		margin: 0;
-		padding: 0;
-		background-color: #f5f5f5;
-	}
-
-	.container {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		min-height: 100vh;
+	.auth-wrapper {
+		display: grid;
+		place-items: center;
+		min-height: calc(100vh - 80px);
+		background-color: var(--bg-canvas);
 		padding: 20px;
-	}
-
-	.register-section {
-		display: flex;
-		flex-direction: row;
 		width: 100%;
-		max-width: 1100px;
-		min-height: 700px;
-		background-color: white;
-		border-radius: 16px;
-		box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-		overflow: hidden;
 	}
 
-	.left-card {
-		flex: 0.8;
-		background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		padding: 60px 40px;
-		position: relative;
-	}
-
-	.left-card::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background:
-			radial-gradient(circle at 20% 50%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
-			radial-gradient(circle at 80% 80%, rgba(255, 193, 7, 0.1) 0%, transparent 50%);
-	}
-
-	.welcome-content {
-		position: relative;
-		z-index: 1;
-		color: white;
-		max-width: 350px;
-	}
-
-	.welcome-content h2 {
-		font-size: 2.5rem;
-		margin: 0 0 16px 0;
-		font-weight: 600;
-	}
-
-	.welcome-content > p {
-		font-size: 1.1rem;
-		color: #ccc;
-		margin: 0 0 40px 0;
-		line-height: 1.6;
-	}
-
-	.right-card {
-		flex: 1.2;
-		display: flex;
-		justify-content: center;
-		align-items: center;
+	.auth-card {
+		width: 100%;
+		max-width: 440px;
+		background-color: var(--bg-surface);
+		border: 1px solid var(--border-default);
+		border-radius: var(--radius-lg);
+		box-shadow: var(--shadow-card);
 		padding: 40px;
-		background-color: white;
-		overflow-y: auto;
 	}
 
 	.details {
 		width: 100%;
-		max-width: 450px;
 	}
 
 	h1 {
-		font-size: 2rem;
-		color: #1a1a1a;
+		font-size: 1.75rem;
+		color: var(--text-contrast);
 		margin: 0 0 8px 0;
-		font-weight: 600;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		text-align: center;
 	}
 
 	p {
-		font-size: 0.95rem;
-		color: #666;
+		font-size: 0.9375rem;
+		color: var(--text-muted);
 		margin: 0 0 24px 0;
+		text-align: center;
 	}
 
 	a {
-		color: #ff6b6b;
+		color: var(--accent-primary);
 		text-decoration: none;
 		font-weight: 500;
 		transition: color 0.2s;
 	}
 
 	a:hover {
-		color: #ff5252;
+		color: var(--accent-hover);
 	}
 
 	form {
@@ -231,19 +166,19 @@
 	}
 
 	.error-message {
-		background-color: #fee;
-		color: #c33;
+		background-color: var(--color-destructive-bg);
+		color: var(--color-destructive);
 		padding: 12px;
-		border-radius: 8px;
+		border-radius: var(--radius-md);
 		margin-bottom: 20px;
-		font-size: 0.9rem;
-		border: 1px solid #fcc;
+		font-size: 0.875rem;
+		border: 1px solid rgba(220, 38, 38, 0.2);
 	}
 
 	.name-section {
 		display: flex;
 		gap: 16px;
-		margin-bottom: 20px;
+		margin-bottom: 16px;
 	}
 
 	.name-section .input-group {
@@ -252,14 +187,14 @@
 	}
 
 	.input-group {
-		margin-bottom: 20px;
+		margin-bottom: 16px;
 	}
 
 	label {
 		display: block;
-		font-size: 0.9rem;
+		font-size: 0.875rem;
 		font-weight: 500;
-		color: #333;
+		color: var(--text-body);
 		margin-bottom: 8px;
 	}
 
@@ -267,12 +202,12 @@
 	input[type='email'],
 	input[type='password'] {
 		width: 100%;
-		padding: 14px 16px;
-		background-color: #f8f8f8;
-		color: #1a1a1a;
-		border: 2px solid transparent;
-		border-radius: 10px;
-		font-size: 0.95rem;
+		padding: 12px 16px;
+		background-color: var(--bg-surface);
+		color: var(--text-contrast);
+		border: 1px solid var(--border-default);
+		border-radius: var(--radius-md);
+		font-size: 0.9375rem;
 		transition: all 0.2s;
 		box-sizing: border-box;
 	}
@@ -281,18 +216,12 @@
 	input[type='email']:focus,
 	input[type='password']:focus {
 		outline: none;
-		background-color: white;
-		border-color: #ff6b6b;
-	}
-
-	input[type='text']:hover,
-	input[type='email']:hover,
-	input[type='password']:hover {
-		background-color: #f0f0f0;
+		border-color: var(--border-focus);
+		box-shadow: 0 0 0 1px var(--border-focus);
 	}
 
 	input::placeholder {
-		color: #999;
+		color: var(--text-subtle);
 	}
 
 	.button-container {
@@ -301,52 +230,34 @@
 
 	.register-btn {
 		width: 100%;
-		background-color: #ff6b6b;
-		color: white;
+		background-color: var(--accent-primary);
+		color: #ffffff;
 		border: none;
-		padding: 16px;
-		border-radius: 10px;
-		font-size: 1.1rem;
-		font-weight: 600;
+		padding: 14px;
+		border-radius: var(--radius-md);
+		font-size: 1rem;
+		font-weight: 500;
 		cursor: pointer;
-		transition: background-color 0.2s;
+		transition: background-color 0.2s, transform 0.1s ease;
+		box-shadow: var(--shadow-subtle);
 	}
 
 	.register-btn:hover {
-		background-color: #ff5252;
+		background-color: var(--accent-hover);
 	}
 
-	@media (max-width: 968px) {
-		.register-section {
-			flex-direction: column;
-			min-height: auto;
-		}
-
-		.left-card {
-			padding: 40px 30px;
-		}
-
-		.welcome-content h2 {
-			font-size: 2rem;
-		}
-
-		.welcome-content > p {
-			font-size: 1rem;
-		}
-
-		h1 {
-			font-size: 1.75rem;
-		}
+	.register-btn:active {
+		transform: scale(0.98);
 	}
 
 	@media (max-width: 568px) {
-		.name-section {
-			flex-direction: column;
-			gap: 0;
+		.auth-card {
+			padding: 24px;
 		}
 
-		.name-section .input-group {
-			margin-bottom: 20px;
+		.name-section {
+			flex-direction: column;
+			gap: 16px;
 		}
 	}
 </style>
