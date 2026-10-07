@@ -6,7 +6,7 @@
 	import { addresses } from '../../stores/addresses.js';
 	import { wishlist } from '../../stores/wishlist.js';
 	import { cart, isCartOpen } from '../../stores/cart.js';
-	import { Heart, MapPin, Package } from 'lucide-svelte';
+	import { Heart, MapPin, Package, CreditCard } from 'lucide-svelte';
 	import { invalidateAll } from '$app/navigation';
 
 	let user = $state(null);
@@ -17,6 +17,7 @@
 	let wishlistItems = $state([]);
 	let { data } = $props();
 	let userOrders = $derived(data?.orders || []);
+	let userCards = $derived(data?.cards || []);
 
 	$effect(() => {
 		if (data?.addresses) {
@@ -60,6 +61,8 @@
 	let isEditingPassword = $state(false);
 	let isAddingAddress = $state(false);
 	let editingAddressId = $state(null);
+	let isAddingCard = $state(false);
+	let editingCardId = $state(null);
 
 	let profileForm = $state({
 		name: '',
@@ -74,6 +77,13 @@
 		state: '',
 		zip: '',
 		country: 'Kenya'
+	});
+
+	let newCard = $state({
+		cardNumber: '',
+		cardName: '',
+		expiryDate: '',
+		cvv: ''
 	});
 
 	// Map related
@@ -199,8 +209,99 @@
 		formData.append('addressId', id);
 		formData.append('userId', user._id);
 		await fetch('?/setDefault', { method: 'POST', body: formData });
-		// location.reload();
 		await invalidateAll();
+	}
+
+	function startAddingCard() {
+		isAddingCard = true;
+		editingCardId = null;
+		newCard = {
+			cardNumber: '',
+			cardName: '',
+			expiryDate: '',
+			cvv: ''
+		};
+	}
+
+	function startEditingCard(card) {
+		editingCardId = card._id;
+		newCard = { ...card };
+		isAddingCard = true;
+	}
+
+	function cancelCardForm() {
+		isAddingCard = false;
+		editingCardId = null;
+		newCard = {
+			cardNumber: '',
+			cardName: '',
+			expiryDate: '',
+			cvv: ''
+		};
+	}
+
+	async function saveCard() {
+		if (!newCard.cardNumber || !newCard.cardName || !newCard.expiryDate) {
+			alert('Please fill in all required fields');
+			return;
+		}
+		if (!user) return;
+
+		const formData = new FormData();
+		formData.append('userId', user._id);
+
+		if (editingCardId) {
+			formData.append('cardId', editingCardId);
+			formData.append('updates', JSON.stringify(newCard));
+			await fetch('?/updateCard', { method: 'POST', body: formData });
+		} else {
+			formData.append('card', JSON.stringify(newCard));
+			await fetch('?/addCard', { method: 'POST', body: formData });
+		}
+
+		await invalidateAll();
+		cancelCardForm();
+	}
+
+	async function deleteCard(id) {
+		if (!user) return;
+		if (confirm('Are you sure you want to delete this card?')) {
+			const formData = new FormData();
+			formData.append('cardId', id);
+			await fetch('?/deleteCard', { method: 'POST', body: formData });
+			await invalidateAll();
+		}
+	}
+
+	async function setDefaultCard(id) {
+		if (!user) return;
+		const formData = new FormData();
+		formData.append('cardId', id);
+		formData.append('userId', user._id);
+		await fetch('?/setDefaultCard', { method: 'POST', body: formData });
+		await invalidateAll();
+	}
+
+	function formatCardNumber(value) {
+		return value
+			.replace(/\s/g, '')
+			.replace(/(\d{4})/g, '$1 ')
+			.trim();
+	}
+
+	function handleCardNumberInput(e) {
+		let value = e.target.value.replace(/\s/g, '');
+		if (value.length <= 16) {
+			newCard.cardNumber = formatCardNumber(value);
+		}
+	}
+
+	function handleExpiryInput(e) {
+		let value = e.target.value.replace(/\D/g, '');
+		if (value.length >= 2) {
+			value = value.slice(0, 2) + '/' + value.slice(2, 4);
+		}
+		newCard.expiryDate = value;
 	}
 
 	async function initMap() {
@@ -475,6 +576,123 @@
 									</div>
 								{/each}
 							</div>
+						{/if}
+					</div>
+				</section>
+
+				<!-- Payment Methods Section -->
+				<section class="content-card" id="cards">
+					<div class="card-header">
+						<h2>Saved Cards</h2>
+						{#if !isAddingCard}
+							<button class="edit-btn" onclick={startAddingCard}> + Add Card </button>
+						{/if}
+					</div>
+					<div class="card-body">
+						{#if isAddingCard}
+							<div class="address-form">
+								<h3>{editingCardId ? 'Edit Card' : 'Add New Card'}</h3>
+
+								<div class="form-grid">
+									<div class="form-group full-width">
+										<label for="cardNumber">Card Number *</label>
+										<input
+											type="text"
+											id="cardNumber"
+											value={newCard.cardNumber}
+											oninput={handleCardNumberInput}
+											placeholder="1234 5678 9012 3456"
+											maxlength="19"
+											class="edit-input"
+										/>
+									</div>
+
+									<div class="form-group full-width">
+										<label for="cardName">Cardholder Name *</label>
+										<input
+											type="text"
+											id="cardName"
+											bind:value={newCard.cardName}
+											placeholder="John Doe"
+											class="edit-input"
+										/>
+									</div>
+
+									<div class="form-group">
+										<label for="expiryDate">Expiry Date *</label>
+										<input
+											type="text"
+											id="expiryDate"
+											value={newCard.expiryDate}
+											oninput={handleExpiryInput}
+											placeholder="MM/YY"
+											maxlength="5"
+											class="edit-input"
+										/>
+									</div>
+
+									<div class="form-group">
+										<label for="cvv">CVV *</label>
+										<input
+											type="text"
+											id="cvv"
+											bind:value={newCard.cvv}
+											placeholder="123"
+											maxlength="3"
+											class="edit-input"
+										/>
+									</div>
+								</div>
+
+								<div class="action-buttons">
+									<button class="save-btn" onclick={saveCard}>Save Card</button>
+									<button class="cancel-btn" onclick={cancelCardForm}>Cancel</button>
+								</div>
+							</div>
+						{:else}
+							{#if userCards.length === 0}
+								<div class="empty-state">
+									<span class="empty-icon">
+										<CreditCard size={40} color="#bbb" />
+									</span>
+									<p>No payment methods saved yet</p>
+									<button class="add-first-btn" onclick={startAddingCard}>
+										Add Your First Card
+									</button>
+								</div>
+							{:else}
+								<div class="addresses-list">
+									{#each userCards as card}
+										<div class="address-item">
+											<div class="address-content">
+												<div class="address-header-row">
+													<h4>{card.cardName}</h4>
+													{#if card.isDefault}
+														<span class="default-badge">Default</span>
+													{/if}
+												</div>
+												<p class="address-text">
+													Card ending in {card.cardNumber.slice(-4)}<br />
+													Expires {card.expiryDate}
+												</p>
+											</div>
+											<div class="address-actions">
+												<button class="action-link" onclick={() => startEditingCard(card)}>
+													Edit
+												</button>
+												{#if !card.isDefault}
+													<button class="action-link" onclick={() => setDefaultCard(card._id)}>
+														Set as Default
+													</button>
+												{/if}
+												<button class="action-link delete" onclick={() => deleteCard(card._id)}>
+													Delete
+												</button>
+											</div>
+										</div>
+									{/each}
+								</div>
+							{/if}
 						{/if}
 					</div>
 				</section>
