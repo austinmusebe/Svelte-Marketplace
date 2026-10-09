@@ -299,8 +299,14 @@
 	function handleExpiryInput(e) {
 		let value = e.target.value.replace(/\D/g, '');
 		if (value.length >= 2) {
+			let month = Number(value.slice(0, 2));
+			if (month < 1 || month > 12) {
+				alert('Please enter a valid expiry date');
+				return;
+			}
 			value = value.slice(0, 2) + '/' + value.slice(2, 4);
 		}
+
 		newCard.expiryDate = value;
 	}
 
