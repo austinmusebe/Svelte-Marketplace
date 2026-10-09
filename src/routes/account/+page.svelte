@@ -428,7 +428,12 @@
 							<div class="info-item">
 								<label>Phone</label>
 								{#if isEditingProfile}
-									<input type="tel" bind:value={profileForm.phone} class="edit-input" />
+									<input
+										type="tel"
+										bind:value={profileForm.phone}
+										class="edit-input"
+										placeholder="+254712345678"
+									/>
 								{:else}
 									<p>{user.phone || 'Not provided'}</p>
 								{/if}

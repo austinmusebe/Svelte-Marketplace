@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import { fail } from '@sveltejs/kit';
 
 export const actions = {
-	default: async ({ request }) => {
+	default: async ({ request, cookies }) => {
 		const formData = await request.formData();
 		const email = formData.get('email');
 		const password = formData.get('password');
@@ -27,6 +27,7 @@ export const actions = {
 			return fail(401, { error: 'Invalid credentials' });
 		}
 
+		cookies.set('userId', user._id.toString(), { path: '/' });
 		// Return user without password
 		return {
 			success: true,

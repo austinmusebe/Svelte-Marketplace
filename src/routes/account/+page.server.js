@@ -3,8 +3,8 @@ import { ObjectId } from 'mongodb';
 import { fail } from '@sveltejs/kit';
 
 // Load user addresses and orders
-export async function load({ url }) {
-	const userId = url.searchParams.get('userId');
+export async function load({ url, cookies }) {
+	const userId = cookies.get('userId');
 	if (!userId) return { addresses: [], orders: [] };
 
 	const db = await getDb();
@@ -14,10 +14,7 @@ export async function load({ url }) {
 
 	const userAddresses = await addresses.find({ userId }).toArray();
 	const userCards = await cards.find({ userId }).toArray();
-	const userOrders = await orders
-		.find({ userId })
-		.sort({ createdAt: -1 })
-		.toArray();
+	const userOrders = await orders.find({ userId }).sort({ createdAt: -1 }).toArray();
 
 	return {
 		addresses: userAddresses.map((addr) => ({
