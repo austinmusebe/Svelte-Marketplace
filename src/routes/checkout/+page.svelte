@@ -80,7 +80,7 @@
 					phone: shippingInfo.phone || user.phone
 				});
 			}
-			alert('Order placed successfully!');
+			// alert('Order placed successfully!');
 			cart.clear();
 			goto(`/order/${orderData.orderId}`);
 		} catch (error) {
@@ -341,7 +341,7 @@
 									type="text"
 									id="street"
 									bind:value={shippingInfo.street}
-									placeholder="123 Main Street"
+									placeholder="Moi Avenue"
 									class="input-field"
 									disabled={selectedAddressId && !useNewAddress}
 								/>
@@ -353,19 +353,19 @@
 									type="text"
 									id="city"
 									bind:value={shippingInfo.city}
-									placeholder="New York"
+									placeholder="Nairobi"
 									class="input-field"
 									disabled={selectedAddressId && !useNewAddress}
 								/>
 							</div>
 
 							<div class="form-group">
-								<label for="state">State</label>
+								<label for="state">County</label>
 								<input
 									type="text"
 									id="state"
 									bind:value={shippingInfo.state}
-									placeholder="NY"
+									placeholder="Nairobi"
 									class="input-field"
 									disabled={selectedAddressId && !useNewAddress}
 								/>
@@ -377,7 +377,7 @@
 									type="text"
 									id="zip"
 									bind:value={shippingInfo.zip}
-									placeholder="10001"
+									placeholder="00200"
 									class="input-field"
 									disabled={selectedAddressId && !useNewAddress}
 								/>
@@ -389,7 +389,7 @@
 									type="text"
 									id="country"
 									bind:value={shippingInfo.country}
-									placeholder="USA"
+									placeholder="Kenya"
 									class="input-field"
 									disabled={selectedAddressId && !useNewAddress}
 								/>
@@ -459,9 +459,14 @@
 						</div>
 					</div>
 
-					<div class="form-group checkbox-group" style="margin-top: 16px; flex-direction: row; align-items: center; gap: 8px;">
+					<div
+						class="form-group checkbox-group"
+						style="margin-top: 16px; flex-direction: row; align-items: center; gap: 8px;"
+					>
 						<input type="checkbox" id="saveCard" bind:checked={paymentInfo.saveCard} />
-						<label for="saveCard" style="margin-bottom: 0;">Save card details for future transactions</label>
+						<label for="saveCard" style="margin-bottom: 0;"
+							>Save card details for future transactions</label
+						>
 					</div>
 
 					<div class="payment-notice">
@@ -707,7 +712,9 @@
 		display: flex;
 		gap: 16px;
 		cursor: pointer;
-		transition: border-color 0.2s, background-color 0.2s;
+		transition:
+			border-color 0.2s,
+			background-color 0.2s;
 	}
 
 	.saved-address-card:hover {
@@ -788,7 +795,7 @@
 		border-color: var(--border-focus);
 		box-shadow: 0 0 0 1px var(--border-focus);
 	}
-	
+
 	.input-field:disabled {
 		background-color: var(--bg-subtle);
 		color: var(--text-muted);

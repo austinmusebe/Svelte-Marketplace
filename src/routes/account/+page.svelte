@@ -467,7 +467,7 @@
 											type="text"
 											id="street"
 											bind:value={newAddress.street}
-											placeholder="123 Main Street"
+											placeholder="Moi Avenue"
 											class="edit-input"
 										/>
 									</div>
@@ -484,12 +484,12 @@
 									</div>
 
 									<div class="form-group">
-										<label for="state">State</label>
+										<label for="state">County</label>
 										<input
 											type="text"
 											id="state"
 											bind:value={newAddress.state}
-											placeholder="NY"
+											placeholder="Nairobi"
 											class="edit-input"
 										/>
 									</div>
@@ -500,7 +500,7 @@
 											type="text"
 											id="zip"
 											bind:value={newAddress.zip}
-											placeholder="10001"
+											placeholder="00200"
 											class="edit-input"
 										/>
 									</div>
@@ -511,7 +511,7 @@
 											type="text"
 											id="country"
 											bind:value={newAddress.country}
-											placeholder="USA"
+											placeholder="Kenya"
 											class="edit-input"
 										/>
 									</div>
@@ -649,50 +649,48 @@
 									<button class="cancel-btn" onclick={cancelCardForm}>Cancel</button>
 								</div>
 							</div>
+						{:else if userCards.length === 0}
+							<div class="empty-state">
+								<span class="empty-icon">
+									<CreditCard size={40} color="#bbb" />
+								</span>
+								<p>No payment methods saved yet</p>
+								<button class="add-first-btn" onclick={startAddingCard}>
+									Add Your First Card
+								</button>
+							</div>
 						{:else}
-							{#if userCards.length === 0}
-								<div class="empty-state">
-									<span class="empty-icon">
-										<CreditCard size={40} color="#bbb" />
-									</span>
-									<p>No payment methods saved yet</p>
-									<button class="add-first-btn" onclick={startAddingCard}>
-										Add Your First Card
-									</button>
-								</div>
-							{:else}
-								<div class="addresses-list">
-									{#each userCards as card}
-										<div class="address-item">
-											<div class="address-content">
-												<div class="address-header-row">
-													<h4>{card.cardName}</h4>
-													{#if card.isDefault}
-														<span class="default-badge">Default</span>
-													{/if}
-												</div>
-												<p class="address-text">
-													Card ending in {card.cardNumber.slice(-4)}<br />
-													Expires {card.expiryDate}
-												</p>
-											</div>
-											<div class="address-actions">
-												<button class="action-link" onclick={() => startEditingCard(card)}>
-													Edit
-												</button>
-												{#if !card.isDefault}
-													<button class="action-link" onclick={() => setDefaultCard(card._id)}>
-														Set as Default
-													</button>
+							<div class="addresses-list">
+								{#each userCards as card}
+									<div class="address-item">
+										<div class="address-content">
+											<div class="address-header-row">
+												<h4>{card.cardName}</h4>
+												{#if card.isDefault}
+													<span class="default-badge">Default</span>
 												{/if}
-												<button class="action-link delete" onclick={() => deleteCard(card._id)}>
-													Delete
-												</button>
 											</div>
+											<p class="address-text">
+												Card ending in {card.cardNumber.slice(-4)}<br />
+												Expires {card.expiryDate}
+											</p>
 										</div>
-									{/each}
-								</div>
-							{/if}
+										<div class="address-actions">
+											<button class="action-link" onclick={() => startEditingCard(card)}>
+												Edit
+											</button>
+											{#if !card.isDefault}
+												<button class="action-link" onclick={() => setDefaultCard(card._id)}>
+													Set as Default
+												</button>
+											{/if}
+											<button class="action-link delete" onclick={() => deleteCard(card._id)}>
+												Delete
+											</button>
+										</div>
+									</div>
+								{/each}
+							</div>
 						{/if}
 					</div>
 				</section>
@@ -701,7 +699,9 @@
 				<section class="content-card" id="orders">
 					<div class="card-header">
 						<h2>My Orders</h2>
-						<span class="orders-count">{userOrders.length} {userOrders.length === 1 ? 'order' : 'orders'}</span>
+						<span class="orders-count"
+							>{userOrders.length} {userOrders.length === 1 ? 'order' : 'orders'}</span
+						>
 					</div>
 					<div class="card-body">
 						{#if userOrders.length === 0}
@@ -725,7 +725,9 @@
 											</div>
 											<div class="order-header-right">
 												<span class="order-total-amount">${order.total}</span>
-												<a href={`/order/${order.orderId}`} class="view-order-link">View Receipt →</a>
+												<a href={`/order/${order.orderId}`} class="view-order-link"
+													>View Receipt →</a
+												>
 											</div>
 										</div>
 
@@ -733,7 +735,9 @@
 											{#each order.items as item}
 												<div class="order-item-row">
 													<span class="item-name">{item.product.name} × {item.quantity}</span>
-													<span class="item-price">${(item.product.price * item.quantity).toFixed(2)}</span>
+													<span class="item-price"
+														>${(item.product.price * item.quantity).toFixed(2)}</span
+													>
 												</div>
 											{/each}
 										</div>
@@ -741,7 +745,10 @@
 										<div class="order-card-footer">
 											<span class="shipping-dest">
 												<MapPin size={14} />
-												<span>Shipping to: {order.shipping?.fullName || ''}, {order.shipping?.city || ''}</span>
+												<span
+													>Shipping to: {order.shipping?.fullName || ''}, {order.shipping?.city ||
+														''}</span
+												>
 											</span>
 											<span class="order-status-badge">Completed</span>
 										</div>
@@ -756,7 +763,9 @@
 				<section class="content-card" id="wishlist">
 					<div class="card-header">
 						<h2>My Wishlist</h2>
-						<span class="orders-count">{wishlistItems.length} {wishlistItems.length === 1 ? 'item' : 'items'}</span>
+						<span class="orders-count"
+							>{wishlistItems.length} {wishlistItems.length === 1 ? 'item' : 'items'}</span
+						>
 					</div>
 					<div class="card-body">
 						{#if wishlistItems.length === 0}
@@ -1322,7 +1331,9 @@
 		overflow: hidden;
 		display: flex;
 		flex-direction: column;
-		transition: transform 0.2s, box-shadow 0.2s;
+		transition:
+			transform 0.2s,
+			box-shadow 0.2s;
 	}
 
 	.wishlist-card:hover {
@@ -1400,7 +1411,9 @@
 		font-size: 0.875rem;
 		font-weight: 500;
 		cursor: pointer;
-		transition: background-color 0.2s, transform 0.1s ease;
+		transition:
+			background-color 0.2s,
+			transform 0.1s ease;
 	}
 
 	.wishlist-cart-btn:hover {
