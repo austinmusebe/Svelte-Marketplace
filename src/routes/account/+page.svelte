@@ -133,7 +133,7 @@
 			city: '',
 			state: '',
 			zip: '',
-			country: 'USA'
+			country: 'Kenya'
 		};
 		setTimeout(initMap, 100);
 	}
@@ -322,7 +322,7 @@
 			map.remove();
 		}
 
-		map = L.map(mapContainer).setView([40.7128, -74.006], 13);
+		map = L.map(mapContainer).setView([-1.28236, 36.82221], 13);
 
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			attribution: '© OpenStreetMap contributors',
@@ -330,7 +330,7 @@
 		}).addTo(map);
 
 		// Add marker
-		marker = L.marker([40.7128, -74.006], {
+		marker = L.marker([-1.28236, 36.82221], {
 			draggable: true
 		}).addTo(map);
 
@@ -348,7 +348,7 @@
 					newAddress.city = data.address.city || data.address.town || data.address.village || '';
 					newAddress.state = data.address.state || '';
 					newAddress.zip = data.address.postcode || '';
-					newAddress.country = data.address.country || 'USA';
+					newAddress.country = data.address.country || 'Kenya';
 				}
 			} catch (error) {
 				console.error('Geocoding error:', error);
@@ -484,7 +484,7 @@
 											type="text"
 											id="city"
 											bind:value={newAddress.city}
-											placeholder="New York"
+											placeholder="Nairobi"
 											class="edit-input"
 										/>
 									</div>

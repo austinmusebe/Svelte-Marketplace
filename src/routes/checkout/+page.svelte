@@ -18,6 +18,17 @@
 			if (!u) {
 				goto('/login');
 			}
+			if (!shippingInfo.fullName) {
+				shippingInfo.fullName = u.name;
+				console.log('added full name');
+			}
+			if (!shippingInfo.email) {
+				shippingInfo.email = u.email;
+			}
+			if (!shippingInfo.phone) {
+				shippingInfo.phone = u.phone;
+				console.log('added phone');
+			}
 		});
 	});
 
@@ -93,7 +104,7 @@
 	let shippingInfo = $state({
 		fullName: '',
 		email: '',
-		phone: '',
+		phone: '+254',
 		street: '',
 		city: '',
 		state: '',
